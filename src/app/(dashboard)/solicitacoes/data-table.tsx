@@ -74,17 +74,17 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
 
   const columns = [
     {
-      header: "Mês Ref.",
+      header: () => <div className="text-center">Mês Ref.</div>,
       accessorFn: (row: Solicitacao) => format(new Date(row.mes_referencia), "MM/yyyy"),
-      cell: (info: any) => <span className="text-zinc-500 font-medium">{info.getValue()}</span>,
+      cell: (info: any) => <div className="text-center text-zinc-500 font-medium">{info.getValue()}</div>,
     },
     {
-      header: "Empreendimento",
+      header: () => <div className="text-center">Empreendimento</div>,
       accessorFn: (row: Solicitacao) => row,
       cell: (info: any) => {
         const item = info.getValue() as Solicitacao;
         return (
-          <div className="min-w-[150px] max-w-[300px]">
+          <div className="min-w-[150px] max-w-[300px] mx-auto text-center">
             <div className="font-semibold text-zinc-900 dark:text-zinc-100 break-all whitespace-normal leading-tight">
               {item.empreendimento}
             </div>
@@ -100,25 +100,25 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
       }
     },
     {
-      header: "Cliente",
+      header: () => <div className="text-center">Cliente</div>,
       accessorKey: "cliente",
       cell: (info: any) => (
-        <div className="min-w-[120px] max-w-[250px] font-medium break-all whitespace-normal leading-tight">
+        <div className="min-w-[120px] max-w-[250px] mx-auto font-medium break-all whitespace-normal leading-tight text-center">
           {info.getValue()}
         </div>
       ),
     },
     {
-      header: "Documento",
+      header: () => <div className="text-center">Documento</div>,
       accessorKey: "documento",
       cell: (info: any) => (
-        <div className="max-w-[180px] truncate" title={info.getValue()}>
+        <div className="max-w-[180px] mx-auto truncate text-center" title={info.getValue()}>
           {info.getValue()}
         </div>
       )
     },
     {
-      header: "Situação",
+      header: () => <div className="text-center">Situação</div>,
       accessorKey: "situacao",
       cell: (info: any) => {
         const val = info.getValue();
@@ -126,19 +126,21 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
                        val === "CANCELADO" ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" :
                        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400";
         return (
-          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${colors}`}>
-            {val}
-          </span>
+          <div className="text-center">
+            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${colors}`}>
+              {val}
+            </span>
+          </div>
         );
       }
     },
     {
       id: "actions",
-      header: () => <div className="text-right px-6">Ações</div>,
+      header: () => <div className="text-center px-6">Ações</div>,
       cell: (info: any) => {
         const id = info.row.original.id;
         return (
-          <div className="flex justify-end gap-2 px-6">
+          <div className="flex justify-center gap-2 px-6">
             <Button 
               variant="ghost" 
               size="icon" 
