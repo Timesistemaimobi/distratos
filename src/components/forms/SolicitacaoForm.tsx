@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { SolicitacaoSchema, type Solicitacao } from "@/types";
 import { normalizarTexto } from "@/lib/utils/distratos";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ export function SolicitacaoForm({ initialData }: FormProps) {
   const router = useRouter();
   const supabase = createClient();
 
-  const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm<Solicitacao>({
+  const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm<z.infer<typeof SolicitacaoSchema>>({
     resolver: zodResolver(SolicitacaoSchema),
     defaultValues: initialData || {
       situacao: "PENDENTE",
@@ -29,7 +30,7 @@ export function SolicitacaoForm({ initialData }: FormProps) {
     },
   });
 
-  const onSubmit = async (data: Solicitacao) => {
+  const onSubmit = async (data: z.infer<typeof SolicitacaoSchema>) => {
     try {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) throw new Error("Usuário não autenticado");
