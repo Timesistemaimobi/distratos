@@ -23,7 +23,7 @@ export function SolicitacaoForm({ initialData }: FormProps) {
   const supabase = createClient();
 
   const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm<z.infer<typeof SolicitacaoSchema>>({
-    resolver: zodResolver(SolicitacaoSchema),
+    resolver: zodResolver(SolicitacaoSchema) as any,
     defaultValues: initialData || {
       situacao: "PENDENTE",
       mes_referencia: new Date(),

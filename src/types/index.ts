@@ -6,7 +6,7 @@ export type Situacao = z.infer<typeof SituacaoEnum>;
 export const SolicitacaoSchema = z.object({
   id: z.string().uuid().optional(),
   mes_referencia: z.coerce.date({
-    required_error: "Mês de referência é obrigatório.",
+    message: "Mês de referência é obrigatório.",
   }),
   empreendimento: z.string().min(1, "Empreendimento é obrigatório."),
   bloco_quadra: z.string().optional(),
