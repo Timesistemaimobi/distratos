@@ -168,7 +168,7 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
   };
 
   return (
-    <div className="space-y-8">
+    <div className="min-h-[calc(100vh-64px)] p-6 md:p-12 space-y-8 max-w-[1400px] mx-auto w-full">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1 text-center md:text-left">
