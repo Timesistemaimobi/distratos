@@ -74,11 +74,13 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
 
   const columns = [
     {
+      id: "mes_referencia",
       header: () => <div className="text-center">Mês Ref.</div>,
       accessorFn: (row: Solicitacao) => format(new Date(row.mes_referencia), "MM/yyyy"),
       cell: (info: any) => <div className="text-center text-zinc-500 font-medium">{info.getValue()}</div>,
     },
     {
+      id: "empreendimento",
       header: () => <div className="text-center">Empreendimento</div>,
       accessorFn: (row: Solicitacao) => row,
       cell: (info: any) => {
