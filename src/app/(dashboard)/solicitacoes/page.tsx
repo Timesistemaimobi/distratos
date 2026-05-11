@@ -129,7 +129,7 @@ export default function SolicitacoesPage() {
           <Label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
             Status da Solicitação
           </Label>
-          <Select value={situacao} onValueChange={setSituacao}>
+          <Select value={situacao} onValueChange={(val) => setSituacao(val || "")}>
             <SelectTrigger className="h-12 rounded-xl bg-white/50 dark:bg-zinc-900/50 border-zinc-200">
               <SelectValue placeholder="Situação" />
             </SelectTrigger>
