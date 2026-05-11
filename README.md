@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Controle de Distratos
 
-## Getting Started
+Sistema interno para gestão e controle de solicitações de distratos.
 
-First, run the development server:
+## Tecnologias Utilizadas
 
+- **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui
+- **Backend/Auth:** Supabase (PostgreSQL, Auth, RLS)
+- **Gráficos:** Recharts
+- **Exportação:** xlsx
+- **Formulários:** React Hook Form + Zod
+
+## Pré-requisitos
+
+- Node.js v18+
+- Projeto no [Supabase](https://supabase.com/)
+
+## Configuração do Supabase
+
+1. Crie um projeto no Supabase.
+2. Acesse o **SQL Editor** no painel do Supabase.
+3. Copie o conteúdo do arquivo `schema.sql` (encontrado nos artefatos da conversa ou na pasta principal se movido) e execute no SQL Editor. Isso criará a tabela `solicitacoes` e configurará o Row Level Security (RLS) para que cada usuário veja apenas seus próprios dados.
+4. Crie pelo menos um usuário no menu **Authentication** do Supabase para fazer o login no sistema.
+
+## Configuração Local
+
+1. Instale as dependências:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Crie um arquivo `.env.local` na raiz do projeto e adicione as chaves do seu projeto Supabase:
+```env
+NEXT_PUBLIC_SUPABASE_URL=sua_url_aqui
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_anon_key_aqui
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Inicie o servidor de desenvolvimento:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Acesse `http://localhost:3000` no seu navegador. O sistema irá redirecioná-lo para a tela de login.
 
-## Learn More
+## Estrutura do Projeto
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app`: Rotas da aplicação (login, dashboard, solicitações, etc).
+- `src/components/forms`: Componentes de formulário reutilizáveis.
+- `src/components/layout`: Sidebar e Header.
+- `src/components/ui`: Componentes do shadcn/ui.
+- `src/lib/utils`: Funções de negócio (agrupamento e normalização).
+- `src/lib/export`: Lógica de exportação para Excel.
+- `src/lib/supabase`: Configuração dos clientes do Supabase (Client e Server) e Middleware.
+- `src/types`: Tipagens e schemas do Zod.
+- `tests`: Testes automatizados da lógica de agrupamento e resumo.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Os testes da lógica de negócio de agrupamento e geração de resumo estão configurados utilizando sintaxe Jest/Vitest. Para executá-los em um ambiente real, configure o Vitest e rode:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run test
+```
