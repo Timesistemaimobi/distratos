@@ -44,7 +44,7 @@ export function DashboardClient({
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] p-6 md:p-12 space-y-8 max-w-[1400px] mx-auto w-full">
+    <div className="min-h-[calc(100vh-64px)] p-6 md:p-8 lg:p-10 space-y-8 w-full mx-auto">
       {/* Header and Filter */}
       <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 bg-white/60 dark:bg-zinc-950/60 backdrop-blur-3xl p-8 rounded-[24px] border border-zinc-200/60 dark:border-zinc-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div className="space-y-2 text-center md:text-left">

@@ -33,7 +33,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-xl border-b border-zinc-200/50 dark:bg-zinc-950/70 dark:border-zinc-800/50 shadow-sm">
-      <div className="flex h-16 items-center px-8 gap-10 max-w-7xl mx-auto w-full">
+      <div className="flex h-16 items-center px-6 md:px-8 lg:px-10 gap-10 mx-auto w-full">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
             <Building2 size={18} />
