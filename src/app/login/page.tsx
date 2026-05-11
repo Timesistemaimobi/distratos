@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const supabase = createClient();
@@ -39,6 +40,26 @@ export default function LoginPage() {
     toast.success("Login realizado com sucesso");
     router.push("/dashboard");
     router.refresh();
+  };
+
+  const handleResetPassword = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error("Por favor, informe seu e-mail no campo acima para recuperar a senha.");
+      return;
+    }
+
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Instruções de recuperação enviadas para o seu e-mail.");
+    }
+    setResetLoading(false);
   };
 
   if (!mounted) return null;
@@ -114,9 +135,20 @@ export default function LoginPage() {
                   <Label htmlFor="password" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Senha
                   </Label>
-                  <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 transition-colors">
-                    Esqueceu a senha?
-                  </a>
+                  <button 
+                    type="button"
+                    onClick={handleResetPassword}
+                    disabled={resetLoading}
+                    className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 transition-colors disabled:opacity-50"
+                  >
+                    {resetLoading ? (
+                      <span className="flex items-center gap-1">
+                        <Loader2 className="h-3 w-3 animate-spin" /> Enviando...
+                      </span>
+                    ) : (
+                      "Esqueceu a senha?"
+                    )}
+                  </button>
                 </div>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
