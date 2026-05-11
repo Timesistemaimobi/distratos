@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { exportarRelatorioMensal, exportarPlanilhaGeral } from "@/lib/export/excel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MonthPicker } from "@/components/ui/month-picker";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -86,11 +87,11 @@ export default function ExportarPage() {
           <Label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
             <Calendar size={16} /> Mês de Referência (Filtro Global)
           </Label>
-          <Input
-            type="month"
+          <MonthPicker
             value={mes}
-            onChange={(e) => setMes(e.target.value)}
-            className="h-12 text-lg rounded-xl bg-white dark:bg-zinc-900 border-zinc-300 shadow-sm"
+            onChange={(val) => setMes(val)}
+            placeholder="Mês de referência"
+            className="bg-white dark:bg-zinc-900 border-zinc-300 shadow-sm"
           />
         </div>
       </div>

@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Solicitacao } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { MonthPicker } from "@/components/ui/month-picker";
 import { Label } from "@/components/ui/label";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 import { LayoutDashboard, CheckCircle, XCircle, Clock, AlertTriangle, Calendar } from "lucide-react";
@@ -56,11 +57,11 @@ export function DashboardClient({
           <Label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
             <Calendar size={16} /> Mês de Referência
           </Label>
-          <Input
-            type="month"
+          <MonthPicker
             value={mes}
-            onChange={(e) => handleMesChange(e.target.value)}
-            className="h-12 text-lg rounded-xl bg-white dark:bg-zinc-900 border-zinc-300 shadow-sm transition-all focus:ring-2 focus:ring-blue-500/20"
+            onChange={(val) => handleMesChange(val)}
+            placeholder="Mês de referência"
+            className="bg-white dark:bg-zinc-900 border-zinc-300 shadow-sm"
           />
         </div>
       </div>

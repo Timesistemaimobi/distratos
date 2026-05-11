@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MonthPicker } from "@/components/ui/month-picker";
 import { Edit2, Trash2, Plus, Search, Calendar, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { deleteSolicitacao } from "@/app/actions/solicitacoes";
@@ -200,11 +201,10 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
           <Label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
             <Calendar size={16} /> Mês de Ref.
           </Label>
-          <Input 
-            type="month" 
-            value={mes} 
-            onChange={(e) => setMes(e.target.value)} 
-            className="h-12 rounded-xl bg-white/50 dark:bg-zinc-900/50 border-zinc-200 focus:ring-2 focus:ring-blue-500/20"
+          <MonthPicker
+            value={mes}
+            onChange={(val) => setMes(val)}
+            placeholder="Selecione um mês"
           />
         </div>
         <div className="space-y-2">
