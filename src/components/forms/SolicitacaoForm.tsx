@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { upsertSolicitacao } from "@/app/actions/solicitacoes";
 
 interface FormProps {
   initialData?: Solicitacao;
@@ -32,9 +33,6 @@ export function SolicitacaoForm({ initialData }: FormProps) {
 
   const onSubmit = async (data: z.infer<typeof SolicitacaoSchema>) => {
     try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) throw new Error("Usuário não autenticado");
-
       // Normaliza os textos antes de salvar
       const payload = {
         mes_referencia: data.mes_referencia.toISOString().split('T')[0],
@@ -46,21 +44,16 @@ export function SolicitacaoForm({ initialData }: FormProps) {
         data_envio: data.data_envio ? (data.data_envio as any).toISOString().split('T')[0] : null,
         prazo_envio: data.prazo_envio ? (data.prazo_envio as any).toISOString().split('T')[0] : null,
         situacao: data.situacao,
-        user_id: userData.user.id,
       };
 
-      if (initialData?.id) {
-        const { error } = await supabase.from("solicitacoes").update(payload).eq("id", initialData.id);
-        if (error) throw error;
-        toast.success("Solicitação atualizada com sucesso");
-      } else {
-        const { error } = await supabase.from("solicitacoes").insert([payload]);
-        if (error) throw error;
-        toast.success("Solicitação criada com sucesso");
+      const result = await upsertSolicitacao(payload, initialData?.id);
+      
+      if (!result.success) {
+        throw new Error(result.error);
       }
 
+      toast.success(initialData?.id ? "Solicitação atualizada com sucesso" : "Solicitação criada com sucesso");
       router.push("/solicitacoes");
-      router.refresh();
     } catch (error: any) {
       toast.error(error.message || "Erro ao salvar a solicitação");
     }
