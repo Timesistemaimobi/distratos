@@ -84,10 +84,12 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
       cell: (info: any) => {
         const item = info.getValue() as Solicitacao;
         return (
-          <div>
-            <div className="font-semibold text-zinc-900 dark:text-zinc-100">{item.empreendimento}</div>
+          <div className="min-w-[150px] max-w-[300px]">
+            <div className="font-semibold text-zinc-900 dark:text-zinc-100 break-all whitespace-normal leading-tight">
+              {item.empreendimento}
+            </div>
             {(item.bloco_quadra || item.unidade_lote) && (
-              <div className="text-sm text-zinc-500">
+              <div className="text-sm text-zinc-500 mt-1">
                 {item.bloco_quadra && `Blc/Qd: ${item.bloco_quadra}`} 
                 {item.bloco_quadra && item.unidade_lote && " • "}
                 {item.unidade_lote && `Und/Lt: ${item.unidade_lote}`}
@@ -100,13 +102,17 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
     {
       header: "Cliente",
       accessorKey: "cliente",
-      cell: (info: any) => <span className="font-medium">{info.getValue()}</span>,
+      cell: (info: any) => (
+        <div className="min-w-[120px] max-w-[250px] font-medium break-all whitespace-normal leading-tight">
+          {info.getValue()}
+        </div>
+      ),
     },
     {
       header: "Documento",
       accessorKey: "documento",
       cell: (info: any) => (
-        <div className="max-w-[200px] truncate" title={info.getValue()}>
+        <div className="max-w-[180px] truncate" title={info.getValue()}>
           {info.getValue()}
         </div>
       )
