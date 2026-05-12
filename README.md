@@ -34,6 +34,12 @@ npm install
 NEXT_PUBLIC_SUPABASE_URL=sua_url_aqui
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_anon_key_aqui
 ```
+Use `.env.example` como modelo e nunca versione arquivos `.env*` com valores reais.
+
+Antes de commitar, rode:
+```bash
+npm run security:check
+```
 
 3. Inicie o servidor de desenvolvimento:
 ```bash

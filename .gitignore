@@ -22,7 +22,6 @@
 
 # misc
 .DS_Store
-*.pem
 
 # debug
 npm-debug.log*
@@ -30,8 +29,30 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files
+.env
+.env.*
+!.env.example
+
+# secrets and local credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+*.mobileprovision
+*.secret
+*.credentials
+service-account*.json
+*-service-account.json
+firebase-service-account*.json
+.envrc
+.secrets/
+secrets/
+credentials/
 
 # vercel
 .vercel
