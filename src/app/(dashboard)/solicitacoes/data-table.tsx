@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useOptimistic } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import {
@@ -67,8 +67,23 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
     });
   }, [mes, debouncedEmpreendimento, debouncedCliente, situacao, pathname, router]); // omitted searchParams to avoid loop
 
+  const [optimisticData, addOptimisticAction] = useOptimistic(
+    initialData,
+    (state: Solicitacao[], action: { type: "delete"; id: string }) => {
+      if (action.type === "delete") {
+        return state.filter((item) => item.id !== action.id);
+      }
+      return state;
+    }
+  );
+
   const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir esta solicitação?")) return;
+    
+    startTransition(() => {
+      addOptimisticAction({ type: "delete", id });
+    });
+
     const result = await deleteSolicitacao(id);
     if (!result.success) {
       toast.error(result.error);
@@ -171,7 +186,7 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
   ];
 
   const table = useReactTable({
-    data: initialData,
+    data: optimisticData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
