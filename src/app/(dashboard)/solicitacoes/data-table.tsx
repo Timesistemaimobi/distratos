@@ -19,6 +19,7 @@ import { MonthPicker } from "@/components/ui/month-picker";
 import { Edit2, Trash2, Plus, Search, Calendar, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { deleteSolicitacao } from "@/app/actions/solicitacoes";
+import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 
 interface DataTableProps {
   initialData: Solicitacao[];
@@ -70,6 +71,7 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
   // Local state for optimistic delete
   const [displayData, setDisplayData] = useState(initialData);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { isOpen: isConfirmOpen, confirm: confirmDelete, onConfirm, onCancel } = useConfirmDialog();
 
   // Sync local state when server re-sends fresh data
   useEffect(() => {
@@ -77,7 +79,8 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
   }, [initialData]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Tem certeza que deseja excluir esta solicitação?")) return;
+    const confirmed = await confirmDelete();
+    if (!confirmed) return;
 
     // Optimistic: remove from UI immediately
     setDisplayData((prev) => prev.filter((item) => item.id !== id));
@@ -338,6 +341,13 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
           </div>
         )}
       </div>
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        open={isConfirmOpen}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+      />
     </div>
   );
 }
