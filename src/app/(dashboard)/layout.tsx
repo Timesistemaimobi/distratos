@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/layout/Navbar";
+import { CommandPalette } from "@/components/ui/command-palette";
 
 export default function DashboardLayout({
   children,
@@ -11,6 +12,7 @@ export default function DashboardLayout({
       <main className="flex-1">
         {children}
       </main>
+      <CommandPalette />
     </div>
   );
 }

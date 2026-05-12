@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 import { Solicitacao } from "@/types";
@@ -10,6 +10,7 @@ import { MonthPicker } from "@/components/ui/month-picker";
 import { Label } from "@/components/ui/label";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 import { LayoutDashboard, CheckCircle, XCircle, Clock, AlertTriangle, Calendar } from "lucide-react";
+import { toast } from "sonner";
 
 interface DashboardClientProps {
   initialMes: string;
@@ -43,6 +44,16 @@ export function DashboardClient({
     params.set("mes", newMes);
     router.push(`${pathname}?${params.toString()}`);
   };
+
+  // Alert user about overdue items on load
+  useEffect(() => {
+    if (atrasados > 0) {
+      toast.warning(
+        `Atenção: ${atrasados} solicitaç${atrasados === 1 ? "ão atrasada" : "ões atrasadas"} neste mês!`,
+        { duration: 6000 }
+      );
+    }
+  }, [atrasados]);
 
   return (
     <div className="min-h-[calc(100vh-64px)] p-6 md:p-8 lg:p-10 space-y-8 w-full mx-auto">
