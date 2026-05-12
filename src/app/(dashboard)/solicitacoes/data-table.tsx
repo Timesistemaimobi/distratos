@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import {
@@ -41,6 +41,8 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
   const [debouncedEmpreendimento] = useDebounce(empreendimento, 500);
   const [debouncedCliente] = useDebounce(cliente, 500);
 
+  const [isPending, startTransition] = useTransition();
+
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -60,7 +62,9 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
     if (situacao && situacao !== "TODOS") params.set("situacao", situacao);
     else params.delete("situacao");
 
-    router.push(`${pathname}?${params.toString()}`);
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`);
+    });
   }, [mes, debouncedEmpreendimento, debouncedCliente, situacao, pathname, router]); // omitted searchParams to avoid loop
 
   const handleDelete = async (id: string) => {
@@ -248,7 +252,7 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
       </div>
 
       {/* Table Area */}
-      <div className="bg-white/60 dark:bg-zinc-950/60 backdrop-blur-3xl rounded-[24px] border border-zinc-200/60 dark:border-zinc-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+      <div className={`bg-white/60 dark:bg-zinc-950/60 backdrop-blur-3xl rounded-[24px] border border-zinc-200/60 dark:border-zinc-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden transition-opacity duration-300 ${isPending ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
