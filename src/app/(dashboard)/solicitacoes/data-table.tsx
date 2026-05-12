@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useTransition, useOptimistic } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import {
@@ -67,29 +67,32 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
     });
   }, [mes, debouncedEmpreendimento, debouncedCliente, situacao, pathname, router]); // omitted searchParams to avoid loop
 
-  const [optimisticData, addOptimisticAction] = useOptimistic(
-    initialData,
-    (state: Solicitacao[], action: { type: "delete"; id: string }) => {
-      if (action.type === "delete") {
-        return state.filter((item) => item.id !== action.id);
-      }
-      return state;
-    }
-  );
+  // Local state for optimistic delete
+  const [displayData, setDisplayData] = useState(initialData);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDelete = (id: string) => {
+  // Sync local state when server re-sends fresh data
+  useEffect(() => {
+    setDisplayData(initialData);
+  }, [initialData]);
+
+  const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir esta solicitação?")) return;
-    
-    startTransition(async () => {
-      addOptimisticAction({ type: "delete", id });
 
-      const result = await deleteSolicitacao(id);
-      if (!result.success) {
-        toast.error(result.error);
-      } else {
-        toast.success("Solicitação excluída com sucesso");
-      }
-    });
+    // Optimistic: remove from UI immediately
+    setDisplayData((prev) => prev.filter((item) => item.id !== id));
+    setIsDeleting(true);
+
+    const result = await deleteSolicitacao(id);
+    setIsDeleting(false);
+
+    if (!result.success) {
+      // Revert on failure
+      setDisplayData(initialData);
+      toast.error(result.error);
+    } else {
+      toast.success("Solicitação excluída com sucesso");
+    }
   };
 
   const columns = [
@@ -186,7 +189,7 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
   ];
 
   const table = useReactTable({
-    data: optimisticData,
+    data: displayData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
