@@ -60,22 +60,24 @@ export function MonthPicker({ value, onChange, placeholder = "Selecione um mês"
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-full justify-start text-left font-normal rounded-xl h-12 bg-white/50 dark:bg-zinc-900/50 border-zinc-200",
-            !value && "text-muted-foreground",
-            className
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4 text-zinc-500" />
-          {selectedDate ? (
-            <span className="capitalize">{format(selectedDate, "MMMM 'de' yyyy", { locale: ptBR })}</span>
-          ) : (
-            <span>{placeholder}</span>
-          )}
-        </Button>
+      <PopoverTrigger 
+        render={
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-full justify-start text-left font-normal rounded-xl h-12 bg-white/50 dark:bg-zinc-900/50 border-zinc-200",
+              !value && "text-muted-foreground",
+              className
+            )}
+          />
+        }
+      >
+        <CalendarIcon className="mr-2 h-4 w-4 text-zinc-500" />
+        {selectedDate ? (
+          <span className="capitalize">{format(selectedDate, "MMMM 'de' yyyy", { locale: ptBR })}</span>
+        ) : (
+          <span>{placeholder}</span>
+        )}
       </PopoverTrigger>
       <PopoverContent className="w-[280px] p-4 rounded-2xl" align="start">
         <div className="flex items-center justify-between space-x-2 pb-4">
