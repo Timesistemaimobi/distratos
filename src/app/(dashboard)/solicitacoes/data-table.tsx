@@ -77,19 +77,19 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
     }
   );
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     if (!confirm("Tem certeza que deseja excluir esta solicitação?")) return;
     
-    startTransition(() => {
+    startTransition(async () => {
       addOptimisticAction({ type: "delete", id });
-    });
 
-    const result = await deleteSolicitacao(id);
-    if (!result.success) {
-      toast.error(result.error);
-    } else {
-      toast.success("Solicitação excluída com sucesso");
-    }
+      const result = await deleteSolicitacao(id);
+      if (!result.success) {
+        toast.error(result.error);
+      } else {
+        toast.success("Solicitação excluída com sucesso");
+      }
+    });
   };
 
   const columns = [
