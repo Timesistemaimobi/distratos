@@ -46,3 +46,13 @@ export type ResumoRow = {
   "DISTRATO FINALIZADO": number;
   "CANCELADOS": number;
 };
+
+export type AuditLog = {
+  id: string;
+  user_id: string;
+  action: 'CREATE' | 'UPDATE' | 'DELETE';
+  entity: string;
+  entity_id: string;
+  details?: Record<string, any>;
+  created_at: string;
+};
