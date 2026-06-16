@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SituacaoEnum = z.enum(["PENDENTE", "FINALIZADO", "CANCELADO"]);
+export const SituacaoEnum = z.enum(["PENDENTE", "AGUARDANDO_FINANCEIRO", "FINALIZADO", "CANCELADO"]);
 export type Situacao = z.infer<typeof SituacaoEnum>;
 
 export const SolicitacaoSchema = z.object({

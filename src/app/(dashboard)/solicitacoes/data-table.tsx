@@ -152,11 +152,18 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
         const val = info.getValue();
         const colors = val === "FINALIZADO" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400" :
                        val === "CANCELADO" ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" :
+                       val === "AGUARDANDO_FINANCEIRO" ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" :
                        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400";
+        const labels: Record<string, string> = {
+          PENDENTE: "Pendente",
+          AGUARDANDO_FINANCEIRO: "Aguardando Financeiro",
+          FINALIZADO: "Finalizado",
+          CANCELADO: "Cancelado",
+        };
         return (
           <div className="text-center">
             <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${colors}`}>
-              {val}
+              {labels[val] ?? val}
             </span>
           </div>
         );
@@ -265,6 +272,7 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
             <SelectContent>
               <SelectItem value="TODOS">Todos os Status</SelectItem>
               <SelectItem value="PENDENTE">Pendente</SelectItem>
+              <SelectItem value="AGUARDANDO_FINANCEIRO">Aguardando Financeiro</SelectItem>
               <SelectItem value="FINALIZADO">Finalizado</SelectItem>
               <SelectItem value="CANCELADO">Cancelado</SelectItem>
             </SelectContent>

@@ -137,7 +137,7 @@ export function DashboardClient({
             <CardTitle className="text-xl font-medium">Volume por Empreendimento</CardTitle>
           </CardHeader>
           <CardContent className="h-[340px] px-2">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" debounce={1}>
               <BarChart data={chartEmpreendimento} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                 <XAxis dataKey="name" fontSize={13} tickLine={false} axisLine={false} tick={{ fill: '#71717a' }} />
                 <YAxis fontSize={13} tickLine={false} axisLine={false} tick={{ fill: '#71717a' }} />
@@ -156,7 +156,7 @@ export function DashboardClient({
             <CardTitle className="text-xl font-medium">Distribuição por Situação</CardTitle>
           </CardHeader>
           <CardContent className="h-[340px] flex items-center justify-center relative">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" debounce={1}>
               <PieChart>
                 <Pie 
                   data={chartSituacao} 

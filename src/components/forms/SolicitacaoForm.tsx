@@ -85,6 +85,7 @@ export function SolicitacaoForm({ initialData }: FormProps) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="PENDENTE">Pendente</SelectItem>
+              <SelectItem value="AGUARDANDO_FINANCEIRO">Aguardando Financeiro</SelectItem>
               <SelectItem value="FINALIZADO">Finalizado</SelectItem>
               <SelectItem value="CANCELADO">Cancelado</SelectItem>
             </SelectContent>
