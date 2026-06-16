@@ -27,13 +27,14 @@ export default async function DashboardPage(props: {
   const total = safeData.length;
   const finalizados = safeData.filter(s => s.situacao === "FINALIZADO").length;
   const cancelados = safeData.filter(s => s.situacao === "CANCELADO").length;
+  const aguardandoFinanceiro = safeData.filter(s => s.situacao === "AGUARDANDO_FINANCEIRO").length;
   const pendentes = safeData.filter(s => s.situacao === "PENDENTE").length;
-  
-  // Atrasados = Pendentes cujo prazo_envio expirou
+
+  // Atrasados = Pendentes/Aguardando cujo prazo_envio expirou
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0);
   const atrasados = safeData.filter(s => {
-    if (s.situacao !== "PENDENTE" || !s.prazo_envio) return false;
+    if ((s.situacao !== "PENDENTE" && s.situacao !== "AGUARDANDO_FINANCEIRO") || !s.prazo_envio) return false;
     const prazo = new Date(s.prazo_envio);
     return prazo < hoje;
   }).length;
@@ -54,6 +55,7 @@ export default async function DashboardPage(props: {
   const chartSituacao = [
     { name: "Finalizados", value: finalizados, color: "#10b981" },
     { name: "Pendentes", value: pendentes, color: "#f59e0b" },
+    { name: "Ag. Financeiro", value: aguardandoFinanceiro, color: "#3b82f6" },
     { name: "Cancelados", value: cancelados, color: "#ef4444" },
   ].filter(item => item.value > 0);
 

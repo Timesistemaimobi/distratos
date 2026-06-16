@@ -29,17 +29,29 @@ export async function proxy(request: NextRequest) {
 
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
 
-  if (
-    !user &&
+  const isProtected =
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth") &&
-    !request.nextUrl.pathname.startsWith("/update-password")
-  ) {
+    !request.nextUrl.pathname.startsWith("/update-password");
+
+  if (!user && isProtected) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    return NextResponse.redirect(url);
+    const redirectResponse = NextResponse.redirect(url);
+
+    // Clear stale auth cookies to prevent repeated refresh_token_not_found errors
+    if (error) {
+      request.cookies.getAll().forEach(({ name }) => {
+        if (name.startsWith("sb-")) {
+          redirectResponse.cookies.delete(name);
+        }
+      });
+    }
+
+    return redirectResponse;
   }
 
   return supabaseResponse;
