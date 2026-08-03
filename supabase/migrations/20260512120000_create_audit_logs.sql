@@ -1,27 +1,30 @@
--- Create audit_logs table
-CREATE TABLE IF NOT EXISTS public.audit_logs (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
-    action VARCHAR(50) NOT NULL, -- e.g., 'CREATE', 'UPDATE', 'DELETE'
-    entity VARCHAR(50) NOT NULL, -- e.g., 'solicitacoes'
-    entity_id UUID NOT NULL,
-    details JSONB,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+create table if not exists public.audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete set null,
+  action text not null check (action in ('CREATE', 'UPDATE', 'DELETE')),
+  entity text not null,
+  entity_id text not null,
+  details jsonb,
+  created_at timestamptz not null default timezone('utc'::text, now())
 );
 
--- Enable RLS
-ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+create index if not exists audit_logs_user_id_idx on public.audit_logs (user_id);
+create index if not exists audit_logs_created_at_idx on public.audit_logs (created_at desc);
 
--- Only authenticated users can view logs (or restrict to admins later)
-CREATE POLICY "Users can view audit logs"
-    ON public.audit_logs
-    FOR SELECT
-    TO authenticated
-    USING (true);
+alter table public.audit_logs enable row level security;
 
--- System can insert logs (via authenticated user requests)
-CREATE POLICY "Users can insert audit logs"
-    ON public.audit_logs
-    FOR INSERT
-    TO authenticated
-    WITH CHECK (auth.uid() = user_id);
+drop policy if exists "Users view their own audit logs" on public.audit_logs;
+
+create policy "Users view their own audit logs"
+on public.audit_logs
+for select
+to authenticated
+using ((select auth.uid()) = user_id);
+
+drop policy if exists "Users create their own audit logs" on public.audit_logs;
+
+create policy "Users create their own audit logs"
+on public.audit_logs
+for insert
+to authenticated
+with check ((select auth.uid()) = user_id);

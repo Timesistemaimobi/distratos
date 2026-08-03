@@ -1,4 +1,4 @@
-const CACHE_NAME = "distratos-v1";
+const CACHE_NAME = "distratos-v2";
 const STATIC_ASSETS = ["/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", (event) => {
@@ -18,6 +18,11 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  // Let cross-origin requests, such as Supabase Auth, bypass this worker.
+  if (new URL(event.request.url).origin !== self.location.origin) {
+    return;
+  }
+
   // Network-first strategy for navigation and API
   if (event.request.mode === "navigate" || event.request.url.includes("/api/")) {
     event.respondWith(
