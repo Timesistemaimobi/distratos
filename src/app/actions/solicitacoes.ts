@@ -44,6 +44,8 @@ export async function upsertSolicitacao(payload: any, id?: string) {
 
     const dataToSave = {
       ...payload,
+      // O m?s de refer?ncia de um novo lan?amento ? sempre o m?s corrente.
+      ...(id ? {} : { mes_referencia: new Date().toISOString().split("T")[0] }),
       user_id: userData.user.id,
     };
 

@@ -35,7 +35,7 @@ export function SolicitacaoForm({ initialData }: FormProps) {
     try {
       // Normaliza os textos antes de salvar
       const payload = {
-        mes_referencia: data.mes_referencia.toISOString().split('T')[0],
+        mes_referencia: (initialData?.mes_referencia ? new Date(initialData.mes_referencia) : new Date()).toISOString().split('T')[0],
         empreendimento: normalizarTexto(data.empreendimento),
         bloco_quadra: data.bloco_quadra ? normalizarTexto(data.bloco_quadra) : null,
         unidade_lote: data.unidade_lote ? normalizarTexto(data.unidade_lote) : null,
@@ -62,19 +62,18 @@ export function SolicitacaoForm({ initialData }: FormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 max-w-4xl w-full mx-auto bg-white/60 dark:bg-zinc-950/60 backdrop-blur-3xl p-8 md:p-12 rounded-[32px] border border-zinc-200/60 dark:border-zinc-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="space-y-2">
+        <div className="hidden" aria-hidden="true">
           <Label>Mês de Referência *</Label>
           <Input
             type="date"
             {...register("mes_referencia")}
             defaultValue={initialData?.mes_referencia ? new Date(initialData.mes_referencia).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}
-            required
             className="h-12 rounded-xl"
           />
           {errors.mes_referencia && <span className="text-sm text-red-500">{errors.mes_referencia.message}</span>}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 md:col-span-2">
           <Label>Situação *</Label>
           <Select
             defaultValue={initialData?.situacao || "PENDENTE"}
