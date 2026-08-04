@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Search, LayoutDashboard, ListTodo, PlusCircle, Download, X } from "lucide-react";
+import { Search, LayoutDashboard, ListTodo, PlusCircle, Download, Upload, X } from "lucide-react";
 
 interface SearchResult {
   id: string;
@@ -11,13 +11,15 @@ interface SearchResult {
   sublabel?: string;
   href: string;
   type: "page" | "record";
+  icon?: React.ComponentType<{ size?: number }>;
 }
 
 const PAGES: SearchResult[] = [
-  { id: "dashboard", label: "Dashboard", href: "/dashboard", type: "page" },
-  { id: "solicitacoes", label: "Solicitações", href: "/solicitacoes", type: "page" },
-  { id: "novo", label: "Novo Lançamento", href: "/novo", type: "page" },
-  { id: "exportar", label: "Exportar Relatório", href: "/exportar", type: "page" },
+  { id: "dashboard", label: "Dashboard", href: "/dashboard", type: "page", icon: LayoutDashboard },
+  { id: "solicitacoes", label: "Solicitações", href: "/solicitacoes", type: "page", icon: ListTodo },
+  { id: "novo", label: "Novo Lançamento", href: "/novo", type: "page", icon: PlusCircle },
+  { id: "exportar", label: "Exportar Relatório", href: "/exportar", type: "page", icon: Download },
+  { id: "importar", label: "Importar Planilha", href: "/importar", type: "page", icon: Upload },
 ];
 
 export function CommandPalette() {
@@ -169,7 +171,9 @@ export function CommandPalette() {
                     ? "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
                     : "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
                 }`}>
-                  {result.type === "page" ? (
+                  {result.type === "page" && result.icon ? (
+                    <result.icon size={16} />
+                  ) : result.type === "page" ? (
                     <LayoutDashboard size={16} />
                   ) : (
                     <ListTodo size={16} />

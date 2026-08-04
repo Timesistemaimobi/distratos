@@ -8,6 +8,7 @@ import {
   ListTodo,
   PlusCircle,
   Download,
+  Upload,
   Building2,
   LogOut
 } from "lucide-react";
@@ -18,7 +19,8 @@ const navItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Solicitações", href: "/solicitacoes", icon: ListTodo },
   { name: "Novo Lançamento", href: "/novo", icon: PlusCircle },
-  { name: "Exportar Relatório", href: "/exportar", icon: Download },
+  { name: "Exportar", href: "/exportar", icon: Download },
+  { name: "Importar", href: "/importar", icon: Upload },
 ];
 
 export function Navbar() {
