@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SituacaoEnum = z.enum(["PENDENTE", "AGUARDANDO_FINANCEIRO", "FINALIZADO", "CANCELADO"]);
+export const SituacaoEnum = z.enum(["PENDENTE", "AGUARDANDO_FINANCEIRO", "ENVIADO", "ASSINADO", "AGUARDANDO_SIENGE", "FINALIZADO", "CANCELADO"]);
 export type Situacao = z.infer<typeof SituacaoEnum>;
 
 export const SolicitacaoSchema = z.object({
@@ -15,7 +15,7 @@ export const SolicitacaoSchema = z.object({
   documento: z.string().min(1, "Documento é obrigatório."),
   data_envio: z.preprocess((arg) => (arg === "" || arg == null ? undefined : arg), z.coerce.date().optional()),
   prazo_envio: z.preprocess((arg) => (arg === "" || arg == null ? undefined : arg), z.coerce.date().optional()),
-  situacao: SituacaoEnum,
+  situacao: SituacaoEnum.optional(),
 });
 
 export type Solicitacao = z.infer<typeof SolicitacaoSchema> & {

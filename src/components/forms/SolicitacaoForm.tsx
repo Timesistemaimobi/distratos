@@ -86,6 +86,9 @@ export function SolicitacaoForm({ initialData }: FormProps) {
             <SelectContent>
               <SelectItem value="PENDENTE">Pendente</SelectItem>
               <SelectItem value="AGUARDANDO_FINANCEIRO">Aguardando Financeiro</SelectItem>
+              <SelectItem value="ENVIADO">Enviado</SelectItem>
+              <SelectItem value="ASSINADO">Assinado</SelectItem>
+              <SelectItem value="AGUARDANDO_SIENGE">Aguardando Sienge</SelectItem>
               <SelectItem value="FINALIZADO">Finalizado</SelectItem>
               <SelectItem value="CANCELADO">Cancelado</SelectItem>
             </SelectContent>

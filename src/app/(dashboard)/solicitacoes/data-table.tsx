@@ -153,10 +153,16 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
         const colors = val === "FINALIZADO" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400" :
                        val === "CANCELADO" ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" :
                        val === "AGUARDANDO_FINANCEIRO" ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" :
+                       val === "ENVIADO" ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400" :
+                       val === "ASSINADO" ? "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400" :
+                       val === "AGUARDANDO_SIENGE" ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400" :
                        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400";
         const labels: Record<string, string> = {
           PENDENTE: "Pendente",
           AGUARDANDO_FINANCEIRO: "Aguardando Financeiro",
+          ENVIADO: "Enviado",
+          ASSINADO: "Assinado",
+          AGUARDANDO_SIENGE: "Aguardando Sienge",
           FINALIZADO: "Finalizado",
           CANCELADO: "Cancelado",
         };
@@ -273,6 +279,9 @@ export function DataTable({ initialData, totalPages, currentPage }: DataTablePro
               <SelectItem value="TODOS">Todos os Status</SelectItem>
               <SelectItem value="PENDENTE">Pendente</SelectItem>
               <SelectItem value="AGUARDANDO_FINANCEIRO">Aguardando Financeiro</SelectItem>
+              <SelectItem value="ENVIADO">Enviado</SelectItem>
+              <SelectItem value="ASSINADO">Assinado</SelectItem>
+              <SelectItem value="AGUARDANDO_SIENGE">Aguardando Sienge</SelectItem>
               <SelectItem value="FINALIZADO">Finalizado</SelectItem>
               <SelectItem value="CANCELADO">Cancelado</SelectItem>
             </SelectContent>
